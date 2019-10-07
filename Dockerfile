@@ -1,16 +1,5 @@
 ### Perform multi-stage build using tool-specific docker images
 
-# Use node 10 docker image to build react frontend
-FROM node:10 as frontend-build
-WORKDIR /workspace/source/docroot/data-catalog-frontend 
-
-#ENV REACT_APP_INTERRA_API_URL=/api/v1
-#ENV REACT_APP_INTERRA_BASE_URL=/
-
-RUN npm install && \
-    npm run build && \
-    cp -R build /
-
 # TODO: Create dkan-tools image (probably a "Running without docker" based install inside of a container)
 
 FROM getdkan/dkan-tools:latest as dkan2-build
@@ -33,6 +22,17 @@ COPY ./ /build/dkan2
 RUN dktl dkan:get $DRUPAL_VERSION && \
     dktl make 
 
+## Use node 10 docker image to build react frontend
+#FROM node:10 as frontend-build
+#WORKDIR /workspace/source/docroot/data-catalog-frontend 
+#
+##ENV REACT_APP_INTERRA_API_URL=/api/v1
+##ENV REACT_APP_INTERRA_BASE_URL=/
+#
+#RUN npm install && \
+#    npm run build && \
+#    cp -R build /
+
 
 
 # Use Dkan PHP7-Web docker image to create DKAN2 image - TODO convert to Centos
@@ -52,7 +52,7 @@ RUN chown -R www-data /var/log/apache2/ && \
     sed 's/\tCustomLog ${APACHE_LOG_DIR}\/access.log combined/\tCustomLog \/dev\/stdout/' /etc/apache2/sites-enabled/000-default.conf 
 
 COPY --chown=www-data:www-data  --from=dkan2-build /build/docroot /var/www/
-COPY --chown=www-data:www-data  --from=frontend-build /build /var/www/docroot/data-catalog-frontend/build
+#COPY --chown=www-data:www-data  --from=frontend-build /build /var/www/docroot/data-catalog-frontend/build
 #RUN chown root /var/www
 
 ENV PORT 8080
