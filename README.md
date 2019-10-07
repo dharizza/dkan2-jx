@@ -1,6 +1,6 @@
 # [DKAN](https://getdkan.github.io/dkan2/)
 
-Testing
+Testing fixes for Jenkins-X
 
 This is the first try on getting jx into DKAN2
 
