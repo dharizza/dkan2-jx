@@ -7,7 +7,7 @@ WORKDIR /tools
 
 # Install dktl
 RUN git clone https://github.com/GetDKAN/dkan-tools.git && \
-    ln -sf /tools/dkan-tools/bin /usr/local/bin
+    ln -s /tools/dkan-tools/bin/dktl /usr/local/bin/dktl
 
 WORKDIR /build
 
@@ -20,8 +20,8 @@ ENV DRUPAL_VERSION V8
 # Set environment variable to manage drupal version we want.
 ENV DOWNLOAD_DRUPAL_VERSION 8.7.8
 
-RUN dktl init
-RUN dktl get $DOWNLOAD_DRUPAL_VERSION && \
+RUN dktl init && \
+    dktl get $DOWNLOAD_DRUPAL_VERSION && \
     dktl make
 
 ## Use node 10 docker image to build react frontend
