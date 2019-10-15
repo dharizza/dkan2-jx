@@ -6,7 +6,7 @@ FROM getdkan/dkan-docker:php72-cli as dkan2-build
 WORKDIR /tools
 
 # Install dktl
-RUN git clone https://github.com/GetDKAN/dkan-tools.git ../
+RUN git clone https://github.com/GetDKAN/dkan-tools.git ../ && \
     ln -sf /tools/dkan-tools/bin /usr/local/bin
 
 WORKDIR /build
