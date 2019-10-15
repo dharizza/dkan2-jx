@@ -24,7 +24,7 @@ cleanup:
 
 preview:
   image:
-    repository:
+    repository: /caopendata/dharizza/dkan2-jx
     tag:
     pullPolicy: IfNotPresent
   env:

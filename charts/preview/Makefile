@@ -1,6 +1,6 @@
 OS := $(shell uname)
 
-preview: 
+preview:
 ifeq ($(OS),Darwin)
 	sed -i "" -e "s/version:.*/version: $(PREVIEW_VERSION)/" Chart.yaml
 	sed -i "" -e "s/version:.*/version: $(PREVIEW_VERSION)/" ../*/Chart.yaml
@@ -8,7 +8,7 @@ ifeq ($(OS),Darwin)
 else ifeq ($(OS),Linux)
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" Chart.yaml
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" ../*/Chart.yaml
-	sed -i -e "s|repository:.*|repository: $(DOCKER_REGISTRY)\/caopendata\/dkan2-jx|" values.yaml
+	sed -i -e "s|repository:.*|repository: $(DOCKER_REGISTRY)\/caopendata\/dharizza\/dkan2-jx|" values.yaml
 	sed -i -e "s/tag:.*/tag: $(PREVIEW_VERSION)/" values.yaml
 else
 	echo "platfrom $(OS) not supported to release from"
