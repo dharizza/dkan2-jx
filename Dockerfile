@@ -2,38 +2,34 @@
 
 # TODO: Create dkan-tools image (probably a "Running without docker" based install inside of a container)
 
-FROM getdkan/dkan-tools:latest as dkan2-build
+FROM getdkan/dkan-docker:php72-cli as dkan2-build
+WORKDIR /tools
+
+# Install dktl
+RUN git clone https://github.com/GetDKAN/dkan-tools.git ../
+    ln -sf /tools/dkan-tools/bin /usr/local/bin
+
 WORKDIR /build
 
-ENV DRUPAL_VERSION=V8
+# Set DKTL_MODE to HOST to skip docker.
+ENV DKTL_MODE "HOST"
 
-### Directory structure
-# /build is build root
-# /build/docroot which is where drupal is inflated
-# /build/src
-# /build/dkan2 ???
-# /build/config/sync ???
+# Set DRUPAL_VERSION to V8 so that dktl works fine.
+ENV DRUPAL_VERSION V8
 
-RUN dktl init 
+# Set environment variable to manage drupal version we want.
+ENV DOWNLOAD_DRUPAL_VERSION 8.7.8
 
-# Need to check correct paths 
-COPY ./ /build/dkan2 
-
-RUN dktl dkan:get $DRUPAL_VERSION && \
-    dktl make 
+RUN dktl init
+RUN dktl get $DOWNLOAD_DRUPAL_VERSION && \
+    dktl make
 
 ## Use node 10 docker image to build react frontend
-#FROM node:10 as frontend-build
-#WORKDIR /workspace/source/docroot/data-catalog-frontend 
-#
-##ENV REACT_APP_INTERRA_API_URL=/api/v1
-##ENV REACT_APP_INTERRA_BASE_URL=/
-#
-#RUN npm install && \
-#    npm run build && \
-#    cp -R build /
-
-
+FROM node:10 as frontend-build
+WORKDIR docroot
+RUN git clone https://github.com/GetDKAN/data-catalog-frontend.git
+WORKDIR data-catalog-frontend
+RUN npm install
 
 # Use Dkan PHP7-Web docker image to create DKAN2 image - TODO convert to Centos
 FROM getdkan/dkan-docker:php7-web
@@ -49,7 +45,7 @@ RUN chown -R www-data /var/log/apache2/ && \
     sed -i 's/443/8443/' /etc/apache2/sites-available/000-default.conf && \
     sed 's/\tErrorLog ${APACHE_LOG_DIR}\/error.log/\tErrorLog \/dev\/stderr/' /etc/apache2/sites-enabled/000-default.conf && \
 #    sed -i 's/dkan/demo2.getdkan.com/' /var/www/docroot/data-catalog-frontend/.env.production && \
-    sed 's/\tCustomLog ${APACHE_LOG_DIR}\/access.log combined/\tCustomLog \/dev\/stdout/' /etc/apache2/sites-enabled/000-default.conf 
+    sed 's/\tCustomLog ${APACHE_LOG_DIR}\/access.log combined/\tCustomLog \/dev\/stdout/' /etc/apache2/sites-enabled/000-default.conf
 
 COPY --chown=www-data:www-data  --from=dkan2-build /build/docroot /var/www/
 #COPY --chown=www-data:www-data  --from=frontend-build /build /var/www/docroot/data-catalog-frontend/build
