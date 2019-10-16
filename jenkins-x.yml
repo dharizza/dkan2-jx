@@ -60,7 +60,7 @@ pipelineConfig:
             - --cache-dir=/workspace
             - --context=/workspace/source
             - --dockerfile=/workspace/source/Dockerfile
-            - --destination=gcr.io/caopendata/aabond/dkan2-demo:${inputs.params.version}
+            - --destination=gcr.io/caopendata/dharizza/dkan2-jx:${inputs.params.version}
             - --cache-repo=gcr.io/caopendata/caopendata/cache
             - --skip-tls-verify-registry=gcr.io/caopendata
             command: /kaniko/executor
@@ -135,7 +135,7 @@ pipelineConfig:
             - --cache-dir=/workspace
             - --context=/workspace/source
             - --dockerfile=/workspace/source/Dockerfile
-            - --destination=gcr.io/caopendata/aabond/dkan2-demo:${inputs.params.version}
+            - --destination=gcr.io/caopendata/dharizza/dkan2-jx:${inputs.params.version}
             - --cache-repo=gcr.io/caopendata/caopendata/cache
             - --skip-tls-verify-registry=gcr.io/caopendata
             command: /kaniko/executor
