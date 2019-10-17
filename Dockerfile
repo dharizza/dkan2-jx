@@ -22,7 +22,7 @@ ENV DOWNLOAD_DRUPAL_VERSION 8.7.8
 
 RUN dktl init && \
     dktl get $DOWNLOAD_DRUPAL_VERSION && \
-    dktl make --frontend && \
+    dktl make --frontend
 
 # Use Dkan PHP7-Web docker image to create DKAN2 image - TODO convert to Centos
 FROM getdkan/dkan-docker:php7-web
