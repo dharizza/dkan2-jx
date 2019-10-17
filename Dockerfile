@@ -22,18 +22,14 @@ ENV DOWNLOAD_DRUPAL_VERSION 8.7.8
 
 RUN dktl init && \
     dktl get $DOWNLOAD_DRUPAL_VERSION && \
-    dktl make
+    dktl make --frontend && \
+    rm -r docroot/profiles/contrib/dkan2
 
-## Use node 10 docker image to build react frontend
-FROM node:10 as frontend-build
-WORKDIR docroot
-RUN git clone https://github.com/GetDKAN/data-catalog-frontend.git
-WORKDIR data-catalog-frontend
-RUN npm install
+COPY /workspace/source /build/docroot/profiles/contrib/dkan2
 
 # Use Dkan PHP7-Web docker image to create DKAN2 image - TODO convert to Centos
 FROM getdkan/dkan-docker:php7-web
-WORKDIR /workspace/source
+WORKDIR /build
 
 RUN chown -R www-data /var/log/apache2/ && \
 #    chown -R www-data /var/run/apache2/ && \
