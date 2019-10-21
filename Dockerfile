@@ -37,12 +37,9 @@ RUN chown -R www-data /var/log/apache2/ && \
     sed -i 's/80/8080/' /etc/apache2/sites-available/000-default.conf && \
     sed -i 's/443/8443/' /etc/apache2/sites-available/000-default.conf && \
     sed 's/\tErrorLog ${APACHE_LOG_DIR}\/error.log/\tErrorLog \/dev\/stderr/' /etc/apache2/sites-enabled/000-default.conf && \
-#    sed -i 's/dkan/demo2.getdkan.com/' /var/www/docroot/data-catalog-frontend/.env.production && \
     sed 's/\tCustomLog ${APACHE_LOG_DIR}\/access.log combined/\tCustomLog \/dev\/stdout/' /etc/apache2/sites-enabled/000-default.conf
 
 COPY --chown=www-data:www-data  --from=dkan2-build /build/docroot /var/www/
-#COPY --chown=www-data:www-data  --from=frontend-build /build /var/www/docroot/data-catalog-frontend/build
-#RUN chown root /var/www
 
 ENV PORT 8080
 EXPOSE 8080
