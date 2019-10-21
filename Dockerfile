@@ -1,7 +1,3 @@
-### Perform multi-stage build using tool-specific docker images
-
-# TODO: Create dkan-tools image (probably a "Running without docker" based install inside of a container)
-
 FROM getdkan/dkan-docker:php72-cli as dkan2-build
 WORKDIR /tools
 
@@ -24,7 +20,7 @@ RUN dktl init && \
     dktl get $DOWNLOAD_DRUPAL_VERSION && \
     dktl make --frontend
 
-# Use Dkan PHP7-Web docker image to create DKAN2 image - TODO convert to Centos
+# Use Dkan PHP7-Web docker image to create DKAN2 image
 FROM getdkan/dkan-docker:php7-web
 WORKDIR /build
 
@@ -39,7 +35,7 @@ RUN chown -R www-data /var/log/apache2/ && \
     sed 's/\tErrorLog ${APACHE_LOG_DIR}\/error.log/\tErrorLog \/dev\/stderr/' /etc/apache2/sites-enabled/000-default.conf && \
     sed 's/\tCustomLog ${APACHE_LOG_DIR}\/access.log combined/\tCustomLog \/dev\/stdout/' /etc/apache2/sites-enabled/000-default.conf
 
-COPY --chown=www-data:www-data  --from=dkan2-build /build/docroot /var/www/
+COPY --chown=www-data:www-data  --from=dkan2-build /build /var/www/
 
 ENV PORT 8080
 EXPOSE 8080
