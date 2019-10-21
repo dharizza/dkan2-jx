@@ -71,12 +71,11 @@ pipelineConfig:
             dir: /workspace/source
             image: jx-base
             name: postbuild-post-build
-          - command: "helm init &&  helm repo add chartmuseum.jenkins-x.io\thttp://chartmuseum.jenkins-x.io
-              && helm repo list && make -C /workspace/source/charts/preview preview"
+          - command: "helm init &&  helm repo add chartmuseum.jenkins-x.io\thttp://chartmuseum.jenkins-x.io && helm repo list && make -C /workspace/source/charts/preview preview"
             dir: /
             image: jx-base
             name: promote-make-preview
-          - command: cd /workspace/source/charts/preview/  && jx preview --app $APP_NAME --dir ../..
+          - command: cd /workspace/source/charts/preview/ && jx preview --app $APP_NAME --dir ../..
             dir: /
             image: jx-base
             name: promote-jx-preview
