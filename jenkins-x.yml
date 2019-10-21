@@ -76,8 +76,7 @@ pipelineConfig:
             dir: /
             image: jx-base
             name: promote-make-preview
-          - command: cd /workspace/source/charts/preview/  && jx preview --app $APP_NAME
-              --dir ../..
+          - command: cd /workspace/source/charts/preview/  && jx preview --app $APP_NAME --dir ../..
             dir: /
             image: jx-base
             name: promote-jx-preview
