@@ -21,7 +21,7 @@ RUN dktl init && \
     dktl make --frontend
 
 # Use Dkan PHP7-Web docker image to create DKAN2 image
-FROM getdkan/dkan-docker:php7-web
+FROM getdkan/dkan-docker:php7-web as dkan2-final
 WORKDIR /build
 
 RUN chown -R www-data /var/log/apache2/ && \
