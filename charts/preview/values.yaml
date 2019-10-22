@@ -10,8 +10,6 @@ expose:
 
 db:
   mysqlRootPassword: admin123
-  mysqlUser: drupal
-  mysqlPassword: 123
   mysqlDatabase: drupal
   fullnameOverride: mysql
 
@@ -28,9 +26,6 @@ preview:
     tag:
     pullPolicy: IfNotPresent
   env:
-    DKTL_DOCKER: 1
     MYSQL_ROOT_PASSWORD: admin123
-    MYSQL_USER: drupal
-    MYSQL_PASSWORD: 123
     MYSQL_DATABASE: drupal
 
