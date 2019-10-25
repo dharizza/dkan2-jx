@@ -63,7 +63,7 @@ pipelineConfig:
             - --destination=gcr.io/caopendata/dharizza/dkan2-jx:${inputs.params.version}
             - --cache-repo=gcr.io/caopendata/caopendata/cache
             - --skip-tls-verify-registry=gcr.io/caopendata
-            command: /kaniko/executor --verbosity
+            command: /kaniko/executor
             dir: /workspace/source
             image: gcr.io/kaniko-project/executor:9912ccbf8d22bbafbf971124600fbb0b13b9cbd6
             name: build-container-build
