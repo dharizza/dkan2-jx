@@ -8,6 +8,11 @@ expose:
     http: true
     tlsacme: false
 
+db:
+  mysqlRootPassword: admin123
+  mysqlDatabase: drupal
+  fullnameOverride: mysql
+
 cleanup:
   Args:
     - --cleanup
@@ -17,6 +22,10 @@ cleanup:
 
 preview:
   image:
-    repository:
+    repository: /caopendata/dharizza/dkan2-jx
     tag:
     pullPolicy: IfNotPresent
+  env:
+    MYSQL_ROOT_PASSWORD: admin123
+    MYSQL_DATABASE: drupal
+

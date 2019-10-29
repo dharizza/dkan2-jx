@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta2
 kind: Config
 build:
   artifacts:
-  - image: caopendata/dkan2-jx
+  - image: caopendata/dharizza/dkan2-jx
     context: .
     docker: {}
   tagPolicy:
